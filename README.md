@@ -3,7 +3,7 @@
 
 Submitted by: IYANUOLUWA FAGBAMILA
 
-Deployed Application (optional): [Kudos Board Deployed Site](ADD_LINK_HERE)
+Deployed Application (optional): [Kudos Board Deployed Site](https://kudos-board-1-8lqk.onrender.com)
 
 ### Application Features
 
