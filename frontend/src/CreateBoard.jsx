@@ -5,12 +5,14 @@ function CreateBoard() {
   const [displayForm, setDisplayForm] = useState(false);
 
   const handleDisplayForm = () => {
+    console.log("click")
     setDisplayForm(!displayForm);
   };
 
   return (
     <div>
-      <button onClick={handleDisplayForm}>Create Board</button>
+      {/* <button onClick={handleDisplayForm}>Create Board</button> */}
+
       {displayForm && <CreateForm displayForm={handleDisplayForm} />}
     </div>
   );

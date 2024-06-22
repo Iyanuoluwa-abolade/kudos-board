@@ -1,24 +1,45 @@
 import "./Card.css";
+// import CommentList from "../CommentList/CommentList";
 
-function Card() {
-    const [imageUrl, setImageUrl] = useState('');
-    useEffect(() => {
-        fetch(`https://api.example.com/images/${props.id}`)
-            .then(response => response.json())
-            .then(data => setImageUrl(data.imageUrl));
-    }, []);
+function Card(props) {
+  const [upVote, setUpVote] = useState(props.upVote);
+  const [voteName, setVoteName] = useState("UpVote");
 
-    return (
-        <div className="card">
-            <p>Text Message</p>
-            <img src={props.imageUrl} alt="" />
-            <p>Card Author</p>
-            <div className="card-buttons">
-                <button>Upvote</button>
-                <button>Delete Card</button>
-            </div>
-        </div>
-    )
+  function handleUpVote() {
+    if (voteName === "UpVote") {
+      setUpVote(upVote + 1);
+      setVoteName("DownVote");
+    } else {
+      setUpVote(upVote - 1);
+      setVoteName("UpVote");
+    }
+    props.updateUpVote(props.cardId, upVote); // Add a callback to update the parent component's state
+  }
+
+  return (
+    <div className="card">
+      <p>{props.message}</p>
+      <img src={props.image_url} alt="" />
+      <p>Card by {props.author ? props.author : "anonymous"}</p>
+      <div className="card-buttons">
+        <button onClick={handleUpVote}>{voteName}</button>
+        <p>{upVote}</p>
+        <button onClick={() => props.deleteCard(props.cardId)}>Delete Card</button>
+      </div>
+      <button
+        onClick={() => {
+          props.handleDisplayCommentForm();
+          props.handleSelectedCardId(props.cardId); // Pass the cardId as an argument
+        }}
+      >
+        <i className="fa-solid fa-comment"></i>
+      </button>
+      <CommentList
+        cardId={props.cardId}
+        refreshComments={props.refreshCards}
+      />
+    </div>
+  );
 }
 
 export default Card;
