@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import env from 'dotenv';
-// import b crypt from 'bcrypt';
+
 
 const app = express();
 const port = 3000;
@@ -93,15 +93,10 @@ app.get("/boards/:boardId/cards", async (req, res) => {
     const boardId = parseInt(req.params.boardId)
 
 
-    // try{
         const cards = await prisma.card.findMany({
             where: {boardId: boardId}
         })
         res.json(cards)
-
-    // } catch(err){
-    //     res.status(500).json({err: 'Internal Server Error'})
-    // }
 
 
 });
@@ -119,7 +114,6 @@ app.post("/boards/:boardId/cards", async (req, res) => {
         const newCard = await prisma.card.create({
             data: {
                 message,
-                // author,
                 image_url : image_url,
                 upVote : 0,
                 board: {connect: {id: parseInt(boardId)}}
