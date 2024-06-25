@@ -1,5 +1,6 @@
 import "./Card.css";
-// import CommentList from "../CommentList/CommentList";
+import {useState} from "react";
+import CommentList from "../CommentList/CommentList";
 
 function Card(props) {
   const [upVote, setUpVote] = useState(props.upVote);
@@ -10,10 +11,10 @@ function Card(props) {
       setUpVote(upVote + 1);
       setVoteName("DownVote");
     } else {
-      setUpVote(upVote - 1);
-      setVoteName("UpVote");
+        setUpVote(upVote - 1);
+        setVoteName("UpVote");
     }
-    props.updateUpVote(props.cardId, upVote); // Add a callback to update the parent component's state
+
   }
 
   return (
@@ -24,16 +25,13 @@ function Card(props) {
       <div className="card-buttons">
         <button onClick={handleUpVote}>{voteName}</button>
         <p>{upVote}</p>
-        <button onClick={() => props.deleteCard(props.cardId)}>Delete Card</button>
+        <button onClick={props.deleteCard}>Delete Card</button>
       </div>
       <button
         onClick={() => {
           props.handleDisplayCommentForm();
-          props.handleSelectedCardId(props.cardId); // Pass the cardId as an argument
-        }}
-      >
-        <i className="fa-solid fa-comment"></i>
-      </button>
+          props.handleSelectedCardId()}}><i className="fa-solid fa-comment"></i></button>
+
       <CommentList
         cardId={props.cardId}
         refreshComments={props.refreshCards}

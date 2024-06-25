@@ -1,5 +1,3 @@
-import {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 import CreateButton from '../CreateButton/CreateButton';
 import BoardList from '../BoardList/BoardList';

@@ -4,13 +4,12 @@ import {useParams} from "react-router-dom"
 
 function CreateForm(props) {
   const [boards, setBoards] = useState([]);
-  // const [cards, setCards] = useState([]);
-  // const [showBoards, setShowBoards] = useState(false);
-  // const [showModal, setShowModal] = useState(false); // new state variable
+  const [cards, setCards] = useState([]);
+  const {id} = useParams()
 
   async function addBoard(title, category, author) {
     try {
-      const response = await fetch("http://localhost:3000/boards", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -19,12 +18,35 @@ function CreateForm(props) {
       });
       const data = await response.json();
       setBoards([...boards, data]);
-      // setShowBoards(true);
       props.refreshBoards()
     } catch (err) {
       console.log(err);
     }
   }
+
+  async function addCard(message, author) {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards/${id}/cards`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({message, author})
+      })
+      const data = await response.json();
+      console.log(data)
+      setCards([...cards, data]);
+      props.refreshCards()
+
+
+
+    } catch(err){
+      console.log(err)
+    }
+  }
+
+
+
 
 
   if(props.formName == "board") {
@@ -56,9 +78,31 @@ function CreateForm(props) {
         </div>
       </div>
     )
+
+  } else if(props.formName == "card"){
+    return(
+      <div id="create-card-form" className="modal-overlay">
+        <div className="modal-content">
+            <span className="close" onClick={props.displayForm}>&times;</span>
+            <h1>Create a new {props.formName}</h1>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              const message = e.target.elements[0].value;
+              const author = e.target.elements[1].value;
+              addCard(message, author);
+              props.displayForm()
+            }}>
+                <textarea type="text" name="message" placeholder="Message" />
+                <input type="text" name="author" placeholder="Author" />
+                <button className="create-button">Create Card</button>
+            </form>
+          </div>
+
+      </div>
+
+    )
+
   }
-
-
 
 }
 

@@ -77,7 +77,7 @@ app.post("/boards", async (req, res) => {
 });
 
 app.get('/boards/user/:userId', async (req, res) => {
-    const boardId = req.params;
+    const {userId} = req.params;
     try {
         const boards = await prisma.board.findMany({
             where: {userId: parseInt(userId)}
@@ -114,19 +114,23 @@ app.post("/boards/:boardId/cards", async (req, res) => {
         const selectedBoard = await prisma.board.findUnique({
             where: {id: boardId },
         });
+
         const image_url = await getGif(selectedBoard.category);
         const newCard = await prisma.card.create({
             data: {
                 message,
                 // author,
-                image_url,
+                image_url : image_url,
                 upVote : 0,
                 board: {connect: {id: parseInt(boardId)}}
             },
         });
+
+
         res.json(newCard)
 
     } catch(err){
+        console.log(err)
         res.status(500).json({err: 'Internal Server Error'})
     }
 });
@@ -175,6 +179,39 @@ app.get('/boards/search/:query', async (req, res) => {
 
     }
 
+})
+
+app.post('/cards/:cardId/comments', async(req,res) =>{
+    const cardId = parseInt(req.params.cardId);
+    const {content, authorId} = req.body;
+
+    try{
+        const newComment = await prisma.comment.create({
+            data: {
+                content,
+                card: {connect: {id: cardId}}
+            }
+        });
+        res.json(newComment)
+
+    } catch(err){
+        res.status(500).json({err: 'Internal Server Error'})
+    }
+})
+
+
+app.get('/cards/:cardId/comments', async(req, res) => {
+    const cardId = parseInt(req.params.cardId);
+
+    try {
+        const comments = await prisma.comment.findMany({
+            where: {cardId},
+        });
+        res.json(comments)
+
+    } catch(err) {
+        res.status(500).json({err: 'Internal Server Error'})
+    }
 })
 
 app.listen(port, () => {

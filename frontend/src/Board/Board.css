@@ -1,11 +1,14 @@
 .board {
-    border: 1px solid blue;
+    border: 1px solid black;
+    color: plum;
+    background-color: grey;
     padding: 10px;
     border-radius: 5px;
+
 }
 
 .board img {
-    width: 200px;
+    width: 250px;
     height: 300px;
 }
 
@@ -15,11 +18,11 @@
 }
 
 .delete-button {
-    background-color: plum;
-    color: white;
+    background-color: black;
+    color: plum;
 }
 
 .view-button {
-    background-color: plum;
-    color: white;
+    background-color: black;
+    color: plum;
 }

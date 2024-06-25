@@ -1,28 +1,21 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "../Header/Header";
-// import SearchBar from "../SearchBar/SearchBar";
-// import CreateButton from "../CreateButton/CreateButton";
-// import BoardList from "../BoardList/BoardList";
 import Footer from "../Footer/Footer";
 import CreateForm from "../CreateForm/CreateForm";
 import CardList from "../CardList/CardList";
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Home from "../Home/Home";
-// import CreateCardForm from "..CreateCardForm"
-// import FilterButton from "../FilterButton/FilterButton";
 
 function App() {
   const [displayCreateForm, setDisplayCreateForm] = useState(false);
-  // const [displayCreateCardForm, setDisplayCreateCardForm] = useState(false);
-  // const [displayBoardPage, setDisplayBoardPage] = useState(false);
   const [boards, setBoards] = useState([]);
   const [boardId, setBoardId] = useState();
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] =useState("all")
   const [filteredBoards, setFilteredBoards] = useState([])
   const [userId, setUserId] = useState(null)
-  const categories = ["all", "recent", "celebration", "thank you", "inspiration", "my boards" ];
+  const categories = ["all", "recent", "celebration", "thank you", "inspiration" ];
 
   useEffect(() => {
     receiveBoardList();
@@ -32,8 +25,8 @@ function App() {
   async function receiveBoardList(){
     try{
       const url = userId
-      ? `http://localhost:3000/boards/user/${userId}`
-      : 'http://localhost:3000/boards'
+      ? `${import.meta.env.VITE_BACKEND_URL}/boards/user/${userId}`
+      : `${import.meta.env.VITE_BACKEND_URL}/boards`
       const response = await fetch(url, {
         method: 'GET',
           headers: {
@@ -47,9 +40,9 @@ function App() {
       console.log(err)
     }
   }
-  async function handleSeachBoards(query) {
+  async function handleSearchBoards(query) {
     try {
-      const response = await fetch(`http://localhost:3000/boards/search/${query}`)
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards/search/${query}`)
       const data = await response.json()
       setBoards(data)
     } catch(err){
@@ -58,8 +51,10 @@ function App() {
   }
 
   async function deleteBoard(boardId){
+    console.log("cl")
     try {
-      const response = await fetch(`http://localhost:3000/boards/${query}`, {
+
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/boards/${boardId}`, {
         method: 'DELETE',
         headers: {
           'content-Type': 'application/json'
@@ -70,13 +65,14 @@ function App() {
         receiveBoardList();
       }
     } catch(err) {
+      console.log(err)
     }
   }
 
   function handleSearchChange(query){
     setSearchQuery(query);
     if (query.length > 0) {
-      handleSearchBoards(query)
+      handleSearchBoards(searchQuery)
     } else {
       receiveBoardList()
     }
@@ -122,10 +118,6 @@ function App() {
 
   console.log("filteredBoards", filteredBoards)
 
-  // function handleDisplayCreateCardForm() {
-  //   setDisplayCreateCardForm(!displayCreateCardForm);
-
-  // }
 
   return (
     <Router>

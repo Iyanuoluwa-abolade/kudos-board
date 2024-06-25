@@ -1,3 +1,4 @@
-.create-buttons {
+.create-buttons button{
+    background-color: grey;
     color: plum;
 }

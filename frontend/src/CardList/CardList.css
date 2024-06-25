@@ -2,6 +2,18 @@
     flex-direction: column;
     gap: 20px;
     justify-content: center;
-    justify-items: center;
+    align-items: center;
     padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-buttons {
+    color: grey;
+    background-color: grey;
+}
+
+.black-arrow {
+    color: white;
+    background-color: white;
 }
