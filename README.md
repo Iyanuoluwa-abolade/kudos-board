@@ -3,7 +3,7 @@
 
 Submitted by: IYANUOLUWA FAGBAMILA
 
-Deployed Application (optional): [Kudos Board Deployed Site](ADD_LINK_HERE)
+Deployed Application (optional): [Kudos Board Deployed Site](https://kudos-board-1-8lqk.onrender.com)
 
 ### Application Features
 
@@ -42,7 +42,7 @@ Deployed Application (optional): [Kudos Board Deployed Site](ADD_LINK_HERE)
   - [ ] Add a new filter option on the home page to display only the current user's boards.
   - [ ] Allow boards to be deleted only if they are owned by the user.
 - [ ] **Deployment**
-  - [ ] Website is deployed via Render.
+  - [x] Website is deployed via Render.
 - [ ] **Comments**
   - [ ] Users should be able to comment on cards.
 
